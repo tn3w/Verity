@@ -146,7 +146,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(root))
-        .route("/:ip", get(lookup))
+        .route("/{ip}", get(lookup))
         .with_state(lists);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
