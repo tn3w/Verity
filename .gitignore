@@ -16,6 +16,22 @@ proptest-regressions/
 # Contains mutation testing data
 **/mutants.out*/
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.env
+.venv/
+env/
+ENV/
+.python-version
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
 # RustRover
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

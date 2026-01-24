@@ -64,11 +64,11 @@
         "weight": 7
     },
     {
-        "name": "tor_onionoo_relays",
+        "name": "tor_onionoo",
         "url": "https://onionoo.torproject.org/details",
         "category": "anonymizer",
         "description": "Tor Project Onionoo all relays",
-        "regex": "\"or_addresses\":\\[\"([0-9a-fA-F:.]+):[0-9]+\"|\"exit_addresses\":\\[\"([0-9a-fA-F:.]+):[0-9]+\"",
+        "regex": "\"(?:exit_addresses|or_addresses)\":\\[\"([0-9a-fA-F:.]+):[0-9]+\"|\"(?:exit_addresses|or_addresses)\":\\[\"\\[([0-9a-fA-F:]+)\\]:[0-9]+\"",
         "weight": 7
     },
     {
@@ -198,6 +198,14 @@
         "description": "StopForumSpam toxic IPs",
         "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
         "weight": 7
+    },
+    {
+        "name": "awesome_proxies",
+        "url": "https://raw.githubusercontent.com/mthcht/awesome-lists/refs/heads/main/Lists/PROXY/ALL_PROXY_Lists.csv",
+        "category": "anonymizer",
+        "description": "Awesome Lists all proxies",
+        "regex": "^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})",
+        "weight": 6
     },
     {
         "name": "blocklist_all",
@@ -381,6 +389,14 @@
         "category": "anonymizer",
         "description": "Surfshark VPN servers",
         "regex": "^(?![#;/])([0-9a-fA-F:.]+)",
+        "weight": 6
+    },
+    {
+        "name": "pia",
+        "url": "https://serverlist.piaservers.net/vpninfo/servers/v6",
+        "category": "anonymizer",
+        "description": "Private Internet Access VPN servers",
+        "regex": "\"ip\":\"([0-9a-fA-F:.]+)\"",
         "weight": 6
     },
     {
@@ -629,6 +645,382 @@
         "category": "datacenter",
         "description": "X4BNet datacenter IPv4",
         "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 5
+    },
+    {
+        "name": "datacenter_asns",
+        "url": "https://raw.githubusercontent.com/brianhama/bad-asn-list/refs/heads/master/bad-asn-list.csv",
+        "category": "datacenter",
+        "description": "Datacenter ASN ranges",
+        "regex": "^(?![#;/ASN])([0-9]+)",
+        "weight": 5
+    },
+    {
+        "name": "globules_vpn_ipv4",
+        "url": "https://raw.githubusercontent.com/globules-io/vpns-ip-ranges/master/vpn-ipv4.txt",
+        "category": "anonymizer",
+        "description": "Globules VPN & datacenter IPv4 ranges",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "globules_vpn_ipv6",
+        "url": "https://raw.githubusercontent.com/globules-io/vpns-ip-ranges/master/vpn-ipv6.txt",
+        "category": "anonymizer",
+        "description": "Globules VPN & datacenter IPv6 ranges",
+        "regex": "^(?![#;/])([0-9a-fA-F:]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "jhassine_datacenter_ipv4",
+        "url": "https://raw.githubusercontent.com/jhassine/server-ip-addresses/master/data/datacenters.csv",
+        "category": "datacenter",
+        "description": "Server IP addresses - datacenter ranges",
+        "regex": "\"([0-9.]+/\\d+)\"",
+        "weight": 5
+    },
+    {
+        "name": "jetkai_proxy_http",
+        "url": "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-http.txt",
+        "category": "anonymizer",
+        "description": "Jetkai HTTP proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "jetkai_proxy_https",
+        "url": "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-https.txt",
+        "category": "anonymizer",
+        "description": "Jetkai HTTPS proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "jetkai_proxy_socks4",
+        "url": "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-socks4.txt",
+        "category": "anonymizer",
+        "description": "Jetkai SOCKS4 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "jetkai_proxy_socks5",
+        "url": "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-socks5.txt",
+        "category": "anonymizer",
+        "description": "Jetkai SOCKS5 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "thespeedx_proxy_http",
+        "url": "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt",
+        "category": "anonymizer",
+        "description": "TheSpeedX HTTP proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "thespeedx_proxy_socks4",
+        "url": "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt",
+        "category": "anonymizer",
+        "description": "TheSpeedX SOCKS4 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "thespeedx_proxy_socks5",
+        "url": "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks5.txt",
+        "category": "anonymizer",
+        "description": "TheSpeedX SOCKS5 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "monosans_proxy_http",
+        "url": "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt",
+        "category": "anonymizer",
+        "description": "Monosans HTTP proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "monosans_proxy_socks4",
+        "url": "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/socks4.txt",
+        "category": "anonymizer",
+        "description": "Monosans SOCKS4 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "monosans_proxy_socks5",
+        "url": "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/socks5.txt",
+        "category": "anonymizer",
+        "description": "Monosans SOCKS5 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "proxifly_http",
+        "url": "https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/all/data.txt",
+        "category": "anonymizer",
+        "description": "Proxifly free proxy list",
+        "regex": "://([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "hookzof_socks5",
+        "url": "https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt",
+        "category": "anonymizer",
+        "description": "Hookzof SOCKS5 list",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "vakhov_http",
+        "url": "https://raw.githubusercontent.com/vakhov/fresh-proxy-list/master/http.txt",
+        "category": "anonymizer",
+        "description": "Vakhov fresh HTTP proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "vakhov_https",
+        "url": "https://raw.githubusercontent.com/vakhov/fresh-proxy-list/master/https.txt",
+        "category": "anonymizer",
+        "description": "Vakhov fresh HTTPS proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "vakhov_socks4",
+        "url": "https://raw.githubusercontent.com/vakhov/fresh-proxy-list/master/socks4.txt",
+        "category": "anonymizer",
+        "description": "Vakhov fresh SOCKS4 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "vakhov_socks5",
+        "url": "https://raw.githubusercontent.com/vakhov/fresh-proxy-list/master/socks5.txt",
+        "category": "anonymizer",
+        "description": "Vakhov fresh SOCKS5 proxies",
+        "regex": "^([0-9.]+):",
+        "weight": 6
+    },
+    {
+        "name": "cloudflare_ipv4",
+        "url": "https://www.cloudflare.com/ips-v4",
+        "category": "datacenter",
+        "description": "Cloudflare IPv4 ranges",
+        "regex": "^([0-9.]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "cloudflare_ipv6",
+        "url": "https://www.cloudflare.com/ips-v6",
+        "category": "datacenter",
+        "description": "Cloudflare IPv6 ranges",
+        "regex": "^([0-9a-fA-F:]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "aws_ipv4",
+        "url": "https://ip-ranges.amazonaws.com/ip-ranges.json",
+        "category": "datacenter",
+        "description": "Amazon AWS IPv4 ranges",
+        "regex": "\"ip_prefix\":\\s*\"([0-9.]+/\\d+)\"",
+        "weight": 5
+    },
+    {
+        "name": "gcp_ipv4",
+        "url": "https://www.gstatic.com/ipranges/cloud.json",
+        "category": "datacenter",
+        "description": "Google Cloud Platform IPv4 ranges",
+        "regex": "\"ipv4Prefix\":\\s*\"([0-9.]+/\\d+)\"",
+        "weight": 5
+    },
+    {
+        "name": "digitalocean_ipv4",
+        "url": "https://digitalocean.com/geo/google.csv",
+        "category": "datacenter",
+        "description": "DigitalOcean IPv4 ranges",
+        "regex": "^([0-9.]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "c2tracker_all",
+        "url": "https://raw.githubusercontent.com/montysecurity/C2-Tracker/main/data/all.txt",
+        "category": "malware",
+        "description": "C2 Tracker - All C2 servers, malware, botnets",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "curbengh_botnet",
+        "url": "https://malware-filter.gitlab.io/malware-filter/botnet-filter.txt",
+        "category": "malware",
+        "description": "Botnet C2 IPs from Feodo Tracker",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "stamparm_ipsum_level1",
+        "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/levels/1.txt",
+        "category": "attacks",
+        "description": "IPsum Level 1 - High confidence threats",
+        "regex": "^([0-9a-fA-F:.]+)",
+        "weight": 10
+    },
+    {
+        "name": "stamparm_ipsum_level2",
+        "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/levels/2.txt",
+        "category": "attacks",
+        "description": "IPsum Level 2 - Medium confidence threats",
+        "regex": "^([0-9a-fA-F:.]+)",
+        "weight": 9
+    },
+    {
+        "name": "stamparm_ipsum_level3",
+        "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/levels/3.txt",
+        "category": "attacks",
+        "description": "IPsum Level 3 - Lower confidence threats",
+        "regex": "^([0-9a-fA-F:.]+)",
+        "weight": 8
+    },
+    {
+        "name": "projecthoneypot_http_bl",
+        "url": "https://www.projecthoneypot.org/list_of_ips.php?rss=1",
+        "category": "spam",
+        "description": "Project Honey Pot HTTP:BL",
+        "regex": "<title>([0-9.]+)</title>",
+        "weight": 8
+    },
+    {
+        "name": "threatview_c2",
+        "url": "https://threatview.io/Downloads/IP-High-Confidence-Feed.txt",
+        "category": "malware",
+        "description": "ThreatView high confidence C2",
+        "regex": "^(?![#;/])([0-9.]+)",
+        "weight": 10
+    },
+    {
+        "name": "threatfox_ioc_ips",
+        "url": "https://raw.githubusercontent.com/elliotwutingfeng/ThreatFox-IOC-IPs/main/ips.txt",
+        "category": "malware",
+        "description": "ThreatFox IOC IPs by Abuse.ch (hourly updates)",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "hagezi_threat_intelligence",
+        "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/refs/heads/main/ips/tif.txt",
+        "category": "malware",
+        "description": "Hagezi Threat Intelligence Feeds IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+)",
+        "weight": 9
+    },
+    {
+        "name": "linode_ipv4",
+        "url": "https://geoip.linode.com/",
+        "category": "datacenter",
+        "description": "Linode datacenter IPv4 ranges",
+        "regex": "^([0-9.]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "oracle_cloud_ipv4",
+        "url": "https://docs.oracle.com/en-us/iaas/tools/public_ip_ranges.json",
+        "category": "datacenter",
+        "description": "Oracle Cloud IPv4 ranges",
+        "regex": "\"cidr\":\\s*\"([0-9.]+/\\d+)\"",
+        "weight": 5
+    },
+    {
+        "name": "akamai_ipv4",
+        "url": "https://raw.githubusercontent.com/SecOps-Institute/Akamai-ASN-and-IPs-List/refs/heads/master/akamai_ip_cidr_blocks.lst",
+        "category": "datacenter",
+        "description": "Akamai CDN IPv4 ranges",
+        "regex": "^([0-9.]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "fastly_ipv4",
+        "url": "https://api.fastly.com/public-ip-list",
+        "category": "datacenter",
+        "description": "Fastly CDN IPv4 ranges",
+        "regex": "\"([0-9.]+/\\d+)\"",
+        "weight": 5
+    },
+    {
+        "name": "vultr_ipv4",
+        "url": "https://raw.githubusercontent.com/lord-alfred/ipranges/refs/heads/main/vultr/ipv4.txt",
+        "category": "datacenter",
+        "description": "Vultr datacenter IPv4 ranges",
+        "regex": "^([0-9.]+/\\d+)",
+        "weight": 5
+    },
+    {
+        "name": "youngjun_chang_vpn_ipv4",
+        "url": "https://raw.githubusercontent.com/youngjun-chang/VPNs/master/vpn-ipv4.txt",
+        "category": "anonymizer",
+        "description": "Comprehensive VPN & datacenter IPv4 list",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "youngjun_chang_vpn_ipv6",
+        "url": "https://raw.githubusercontent.com/youngjun-chang/VPNs/master/vpn-ipv6.txt",
+        "category": "anonymizer",
+        "description": "Comprehensive VPN & datacenter IPv6 list",
+        "regex": "^(?![#;/])([0-9a-fA-F:]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "pia_ranges",
+        "url": "https://raw.githubusercontent.com/silvether/pia-vpn-ranges/master/pia-ranges",
+        "category": "anonymizer",
+        "description": "Private Internet Access VPN IP ranges",
+        "regex": "^([0-9.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "cyberghost_proxies",
+        "url": "https://gist.githubusercontent.com/Windows81/17e75698d4fe349bcfb71d1c1ca537d4/raw",
+        "category": "anonymizer",
+        "description": "CyberGhost HTTPS proxy hosts",
+        "regex": "^([0-9.]+)",
+        "weight": 6
+    },
+    {
+        "name": "threatfox_ioc",
+        "url": "https://raw.githubusercontent.com/elliotwutingfeng/ThreatFox-IOC-IPs/main/ips.txt",
+        "category": "malware",
+        "description": "ThreatFox IOC IPs from abuse.ch",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "astrill_vpn",
+        "url": "https://storage.googleapis.com/spur-astrill-vpn/ips.txt",
+        "category": "anonymizer",
+        "description": "Astrill VPN IP addresses (Spur dataset)",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "anycast_ipv4_prefixes",
+        "url": "https://raw.githubusercontent.com/bgptools/anycast-prefixes/refs/heads/master/anycatch-v4-prefixes.txt",
+        "category": "datacenter",
+        "description": "Anycast IPv4 Prefixes",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 5
+    },
+    {
+        "name": "anycast_ipv6_prefixes",
+        "url": "https://raw.githubusercontent.com/bgptools/anycast-prefixes/refs/heads/master/anycatch-v6-prefixes.txt",
+        "category": "datacenter",
+        "description": "Anycast IPv6 Prefixes",
+        "regex": "^(?![#;/])([0-9a-fA-F:]+(?:/\\d+)?)",
         "weight": 5
     }
 ]
