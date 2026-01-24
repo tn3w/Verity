@@ -36,6 +36,7 @@ struct ListsFile {
 
 type Lists = Arc<RwLock<HashMap<String, ListData>>>;
 type Cache = Arc<RwLock<HashMap<String, (Vec<u128>, SystemTime)>>>;
+type Resolver = Arc<TokioAsyncResolver>;
 
 fn parse_ip(input: &str) -> Option<u128> {
     input
@@ -102,7 +103,7 @@ fn extract_ipv4_from_ipv6(ipv6: &Ipv6Addr) -> Vec<u128> {
     results
 }
 
-async fn reverse_lookup_ipv4(ipv6_str: &str, resolver: &TokioAsyncResolver) -> Option<Vec<u128>> {
+async fn reverse_lookup_ipv4(ipv6_str: &str, resolver: &Resolver) -> Option<Vec<u128>> {
     let addr = ipv6_str.parse().ok()?;
     let response = tokio::time::timeout(DNS_TIMEOUT, resolver.reverse_lookup(addr))
         .await
@@ -120,11 +121,7 @@ async fn reverse_lookup_ipv4(ipv6_str: &str, resolver: &TokioAsyncResolver) -> O
     Some(lookup.iter().map(|ip| u32::from(ip.0) as u128).collect())
 }
 
-async fn resolve_ipv4_from_ipv6(
-    ipv6_str: &str,
-    resolver: &TokioAsyncResolver,
-    cache: &Cache,
-) -> Vec<u128> {
+async fn resolve_ipv4_from_ipv6(ipv6_str: &str, resolver: &Resolver, cache: &Cache) -> Vec<u128> {
     let now = SystemTime::now();
     {
         let cache_read = cache.read().await;
@@ -181,14 +178,15 @@ fn load_lists() -> Option<(i64, HashMap<String, ListData>)> {
 async fn download_lists() -> Option<HashMap<String, ListData>> {
     let response = reqwest::get(LISTS_URL).await.ok()?;
     let bytes = response.bytes().await.ok()?;
+    let parsed: ListsFile = serde_json::from_slice(&bytes).ok()?;
     std::fs::write(LISTS_FILE, &bytes).ok()?;
-    load_lists().map(|(_, lists)| lists)
+    Some(parsed.lists)
 }
 
 fn unix_timestamp() -> i64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .unwrap()
+        .unwrap_or(Duration::ZERO)
         .as_secs() as i64
 }
 
@@ -220,7 +218,10 @@ async fn root() -> Redirect {
     Redirect::permanent("https://github.com/tn3w/Verity")
 }
 
-async fn lookup(Path(ip): Path<String>, State((lists, cache)): State<(Lists, Cache)>) -> Response {
+async fn lookup(
+    Path(ip): Path<String>,
+    State((lists, cache, resolver)): State<(Lists, Cache, Resolver)>,
+) -> Response {
     let target = match parse_ip(&ip) {
         Some(t) => t,
         None => return (StatusCode::BAD_REQUEST, "Invalid IP").into_response(),
@@ -230,9 +231,6 @@ async fn lookup(Path(ip): Path<String>, State((lists, cache)): State<(Lists, Cac
     let mut matches = check_ip(target, &lists_data);
 
     if is_ipv6(target) {
-        let resolver =
-            TokioAsyncResolver::tokio(ResolverConfig::default(), ResolverOpts::default());
-
         let ipv4_addresses = resolve_ipv4_from_ipv6(&ip, &resolver, &cache).await;
         for ipv4 in ipv4_addresses {
             for name in check_ip(ipv4, &lists_data) {
@@ -260,13 +258,17 @@ async fn main() {
 
     let lists = Arc::new(RwLock::new(initial_lists));
     let cache = Arc::new(RwLock::new(HashMap::new()));
+    let resolver = Arc::new(TokioAsyncResolver::tokio(
+        ResolverConfig::default(),
+        ResolverOpts::default(),
+    ));
 
     tokio::spawn(update_lists_loop(lists.clone(), timestamp));
 
     let app = Router::new()
         .route("/", get(root))
         .route("/{ip}", get(lookup))
-        .with_state((lists, cache));
+        .with_state((lists, cache, resolver));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     println!("Server running on http://0.0.0.0:3000");
