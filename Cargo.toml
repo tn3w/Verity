@@ -12,6 +12,8 @@ reqwest = "0.13"
 parking_lot = "0.12"
 
 [profile.release]
-opt-level = 3
+opt-level = 'z'
 lto = true
 codegen-units = 1
+strip = true
+panic = 'abort'
