@@ -1,0 +1,634 @@
+[
+    {
+        "name": "feodotracker",
+        "url": "https://feodotracker.abuse.ch/downloads/ipblocklist.txt",
+        "category": "malware",
+        "description": "Feodo Tracker - Botnet C&C",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "urlhaus",
+        "url": "https://urlhaus.abuse.ch/downloads/text_online/",
+        "category": "malware",
+        "description": "URLhaus - Malware distribution",
+        "regex": "https?://([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})",
+        "weight": 10
+    },
+    {
+        "name": "dshield",
+        "url": "https://www.dshield.org/block.txt",
+        "category": "attacks",
+        "description": "DShield Top Attackers",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "blocklist_ssh",
+        "url": "https://lists.blocklist.de/lists/ssh.txt",
+        "category": "attacks",
+        "description": "SSH brute force",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "blocklist_mail",
+        "url": "https://lists.blocklist.de/lists/mail.txt",
+        "category": "attacks",
+        "description": "Mail attackers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "blocklist_apache",
+        "url": "https://lists.blocklist.de/lists/apache.txt",
+        "category": "attacks",
+        "description": "Apache attackers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "emerging_compromised",
+        "url": "https://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+        "category": "compromised",
+        "description": "Compromised hosts",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "tor_exits",
+        "url": "https://check.torproject.org/torbulkexitlist",
+        "category": "anonymizer",
+        "description": "Tor exit nodes",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "tor_onionoo_relays",
+        "url": "https://onionoo.torproject.org/details",
+        "category": "anonymizer",
+        "description": "Tor Project Onionoo all relays",
+        "regex": "\"or_addresses\":\\[\"([0-9a-fA-F:.]+):[0-9]+\"|\"exit_addresses\":\\[\"([0-9a-fA-F:.]+):[0-9]+\"",
+        "weight": 7
+    },
+    {
+        "name": "firehol_level1",
+        "url": "https://iplists.firehol.org/files/firehol_level1.netset",
+        "category": "attacks",
+        "description": "FireHOL Level 1",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "firehol_level2",
+        "url": "https://iplists.firehol.org/files/firehol_level2.netset",
+        "category": "attacks",
+        "description": "FireHOL Level 2",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "firehol_datacenters",
+        "url": "https://iplists.firehol.org/files/datacenters.netset",
+        "category": "datacenter",
+        "description": "Datacenter ranges",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 5
+    },
+    {
+        "name": "firehol_anonymous",
+        "url": "https://iplists.firehol.org/files/firehol_anonymous.netset",
+        "category": "anonymizer",
+        "description": "Anonymous proxies/VPNs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "firehol_webclient",
+        "url": "https://iplists.firehol.org/files/firehol_webclient.netset",
+        "category": "attacks",
+        "description": "Malicious web IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "firehol_abusers_1d",
+        "url": "https://iplists.firehol.org/files/firehol_abusers_1d.netset",
+        "category": "attacks",
+        "description": "Recent abusers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "bruteforceblocker",
+        "url": "https://iplists.firehol.org/files/bruteforceblocker.ipset",
+        "category": "attacks",
+        "description": "Failed auth attempts",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "greensnow",
+        "url": "https://iplists.firehol.org/files/greensnow.ipset",
+        "category": "attacks",
+        "description": "Honeypot IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "spamhaus_drop",
+        "url": "https://www.spamhaus.org/drop/drop.txt",
+        "category": "spam",
+        "description": "Spamhaus DROP",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "spamhaus_dropv6",
+        "url": "https://www.spamhaus.org/drop/dropv6.txt",
+        "category": "spam",
+        "description": "Spamhaus DROP IPv6",
+        "regex": "^(?![#;/])([0-9a-fA-F:]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "binarydefense",
+        "url": "https://www.binarydefense.com/banlist.txt",
+        "category": "attacks",
+        "description": "Binary Defense ATIF",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "cinsscore",
+        "url": "http://cinsscore.com/list/ci-badguys.txt",
+        "category": "attacks",
+        "description": "CINS Army",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "ipsum",
+        "url": "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt",
+        "category": "attacks",
+        "description": "IPsum aggregated",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+)\\t([3-9]|\\d{2,})",
+        "weight": 8
+    },
+    {
+        "name": "botvrij",
+        "url": "https://www.botvrij.eu/data/ioclist.ip-dst.raw",
+        "category": "malware",
+        "description": "Botvrij botnet tracking",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "alienvault_reputation",
+        "url": "https://reputation.alienvault.com/reputation.generic",
+        "category": "attacks",
+        "description": "AlienVault OTX IP Reputation",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+)",
+        "weight": 8
+    },
+    {
+        "name": "stopforumspam_toxic",
+        "url": "https://www.stopforumspam.com/downloads/toxic_ip_cidr.txt",
+        "category": "spam",
+        "description": "StopForumSpam toxic IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "blocklist_all",
+        "url": "https://lists.blocklist.de/lists/all.txt",
+        "category": "attacks",
+        "description": "Blocklist.de all attackers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "blocklist_strongips",
+        "url": "https://lists.blocklist.de/lists/strongips.txt",
+        "category": "attacks",
+        "description": "Blocklist.de strong IPs (multiple attacks)",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "blocklist_bruteforce",
+        "url": "https://lists.blocklist.de/lists/bruteforcelogin.txt",
+        "category": "attacks",
+        "description": "Blocklist.de brute force login attempts",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "firehol_level4",
+        "url": "https://iplists.firehol.org/files/firehol_level4.netset",
+        "category": "attacks",
+        "description": "FireHOL Level 4 - All sources",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "firehol_proxies",
+        "url": "https://iplists.firehol.org/files/firehol_proxies.netset",
+        "category": "anonymizer",
+        "description": "FireHOL all proxies",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "firehol_webserver",
+        "url": "https://iplists.firehol.org/files/firehol_webserver.netset",
+        "category": "attacks",
+        "description": "FireHOL web server attacks",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "ciarmy",
+        "url": "https://cinsscore.com/list/ci-badguys.txt",
+        "category": "attacks",
+        "description": "Collective Intelligence Army List",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "etnetera_aggressive",
+        "url": "https://security.etnetera.cz/feeds/etn_aggressive.txt",
+        "category": "attacks",
+        "description": "Etnetera aggressive scanners",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "packetmail",
+        "url": "https://iplists.firehol.org/files/packetmail.ipset",
+        "category": "attacks",
+        "description": "PacketMail emerging IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "pushing_inertia",
+        "url": "https://iplists.firehol.org/files/pushing_inertia_blocklist.netset",
+        "category": "attacks",
+        "description": "Pushing Inertia blocklist",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "sblam",
+        "url": "https://iplists.firehol.org/files/sblam.ipset",
+        "category": "spam",
+        "description": "SBLAM spam IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "snort_ipfilter",
+        "url": "https://iplists.firehol.org/files/snort_ipfilter.ipset",
+        "category": "attacks",
+        "description": "Snort IP filter",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "turris_greylist",
+        "url": "https://iplists.firehol.org/files/turris_greylist.ipset",
+        "category": "attacks",
+        "description": "Turris Greylist",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "voipbl",
+        "url": "https://voipbl.org/update/",
+        "category": "attacks",
+        "description": "VoIP Blacklist",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "cybercrime",
+        "url": "https://iplists.firehol.org/files/cybercrime.ipset",
+        "category": "malware",
+        "description": "Cybercrime tracker",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "malwaredomainlist",
+        "url": "https://iplists.firehol.org/files/malwaredomainlist.ipset",
+        "category": "malware",
+        "description": "Malware Domain List",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "php_commenters",
+        "url": "https://iplists.firehol.org/files/php_commenters.ipset",
+        "category": "spam",
+        "description": "PHP comment spammers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "php_harvesters",
+        "url": "https://iplists.firehol.org/files/php_harvesters.ipset",
+        "category": "attacks",
+        "description": "PHP harvesters",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "php_spammers",
+        "url": "https://iplists.firehol.org/files/php_spammers.ipset",
+        "category": "spam",
+        "description": "PHP spammers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "nordvpn",
+        "url": "https://api.nordvpn.com/v1/servers?limit=10000",
+        "category": "anonymizer",
+        "description": "NordVPN servers",
+        "regex": "\"(?:station|ipv6_station)\":\"([0-9a-fA-F:.]+)\"",
+        "weight": 6
+    },
+    {
+        "name": "protonvpn",
+        "url": "https://raw.githubusercontent.com/tn3w/ProtonVPN-IPs/refs/heads/master/protonvpn_ips.json",
+        "category": "anonymizer",
+        "description": "ProtonVPN servers",
+        "regex": "\"([0-9a-fA-F:.]+)\"",
+        "weight": 6
+    },
+    {
+        "name": "expressvpn",
+        "url": "https://raw.githubusercontent.com/sudesh0sudesh/ExpressVPN-IPs/refs/heads/main/express_ips.csv",
+        "category": "anonymizer",
+        "description": "ExpressVPN servers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+)",
+        "weight": 6
+    },
+    {
+        "name": "surfshark",
+        "url": "https://raw.githubusercontent.com/sudesh0sudesh/surfshark-IPs/refs/heads/main/surfshark_ips.csv",
+        "category": "anonymizer",
+        "description": "Surfshark VPN servers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+)",
+        "weight": 6
+    },
+    {
+        "name": "tunnelbear",
+        "url": "https://raw.githubusercontent.com/tn3w/TunnelBear-IPs/refs/heads/master/tunnelbear_ips.json",
+        "category": "anonymizer",
+        "description": "TunnelBear VPN servers",
+        "regex": "\"([0-9a-fA-F:.]+)\"",
+        "weight": 6
+    },
+    {
+        "name": "mullvad",
+        "url": "https://api.mullvad.net/www/relays/all",
+        "category": "anonymizer",
+        "description": "Mullvad VPN servers",
+        "regex": "\"(?:ipv4_addr_in|ipv6_addr_in)\":\"([0-9a-fA-F:.]+)\"",
+        "weight": 6
+    },
+    {
+        "name": "cleantalk",
+        "url": "https://iplists.firehol.org/files/cleantalk_updated.ipset",
+        "category": "spam",
+        "description": "CleanTalk spam IPs",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "cleantalk_top20",
+        "url": "https://iplists.firehol.org/files/cleantalk_top20.ipset",
+        "category": "spam",
+        "description": "CleanTalk top 20 spam countries",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "cruzit_web_attacks",
+        "url": "https://iplists.firehol.org/files/cruzit_web_attacks.ipset",
+        "category": "attacks",
+        "description": "Cruzit web attacks",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "dm_tor",
+        "url": "https://iplists.firehol.org/files/dm_tor.ipset",
+        "category": "anonymizer",
+        "description": "Dan.me.uk Tor nodes",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "dyndns_ponmocup",
+        "url": "https://iplists.firehol.org/files/dyndns_ponmocup.ipset",
+        "category": "malware",
+        "description": "DynDNS Ponmocup malware",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "et_block",
+        "url": "https://iplists.firehol.org/files/et_block.netset",
+        "category": "attacks",
+        "description": "Emerging Threats blocklist",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "et_botcc",
+        "url": "https://iplists.firehol.org/files/et_botcc.ipset",
+        "category": "malware",
+        "description": "Emerging Threats botnet C&C",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "et_compromised",
+        "url": "https://iplists.firehol.org/files/et_compromised.ipset",
+        "category": "compromised",
+        "description": "Emerging Threats compromised",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "et_dshield",
+        "url": "https://iplists.firehol.org/files/et_dshield.netset",
+        "category": "attacks",
+        "description": "Emerging Threats DShield",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 8
+    },
+    {
+        "name": "et_spamhaus",
+        "url": "https://iplists.firehol.org/files/et_spamhaus.netset",
+        "category": "spam",
+        "description": "Emerging Threats Spamhaus",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "et_tor",
+        "url": "https://iplists.firehol.org/files/et_tor.ipset",
+        "category": "anonymizer",
+        "description": "Emerging Threats Tor nodes",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "gpf_comics",
+        "url": "https://iplists.firehol.org/files/gpf_comics.ipset",
+        "category": "attacks",
+        "description": "GPF Comics attackers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "hphosts_ats",
+        "url": "https://iplists.firehol.org/files/hphosts_ats.ipset",
+        "category": "attacks",
+        "description": "hpHosts ad/tracking servers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "hphosts_emd",
+        "url": "https://iplists.firehol.org/files/hphosts_emd.ipset",
+        "category": "malware",
+        "description": "hpHosts malware sites",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "hphosts_exp",
+        "url": "https://iplists.firehol.org/files/hphosts_exp.ipset",
+        "category": "malware",
+        "description": "hpHosts exploit sites",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "hphosts_fsa",
+        "url": "https://iplists.firehol.org/files/hphosts_fsa.ipset",
+        "category": "spam",
+        "description": "hpHosts fraud sites",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "hphosts_psh",
+        "url": "https://iplists.firehol.org/files/hphosts_psh.ipset",
+        "category": "malware",
+        "description": "hpHosts phishing sites",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "iblocklist_abuse_palevo",
+        "url": "https://iplists.firehol.org/files/iblocklist_abuse_palevo.netset",
+        "category": "malware",
+        "description": "iBlocklist Palevo worm",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "iblocklist_abuse_spyeye",
+        "url": "https://iplists.firehol.org/files/iblocklist_abuse_spyeye.netset",
+        "category": "malware",
+        "description": "iBlocklist SpyEye malware",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "iblocklist_abuse_zeus",
+        "url": "https://iplists.firehol.org/files/iblocklist_abuse_zeus.netset",
+        "category": "malware",
+        "description": "iBlocklist Zeus trojan",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 10
+    },
+    {
+        "name": "iblocklist_onion_router",
+        "url": "https://iplists.firehol.org/files/iblocklist_onion_router.netset",
+        "category": "anonymizer",
+        "description": "iBlocklist Tor routers",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "iblocklist_spamhaus_drop",
+        "url": "https://iplists.firehol.org/files/iblocklist_spamhaus_drop.netset",
+        "category": "spam",
+        "description": "iBlocklist Spamhaus DROP",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 9
+    },
+    {
+        "name": "nixspam",
+        "url": "https://iplists.firehol.org/files/nixspam.ipset",
+        "category": "spam",
+        "description": "NiX Spam blocklist",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 7
+    },
+    {
+        "name": "ri_connect_proxies",
+        "url": "https://iplists.firehol.org/files/ri_connect_proxies.ipset",
+        "category": "anonymizer",
+        "description": "Rosinstrument CONNECT proxies",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "ri_web_proxies",
+        "url": "https://iplists.firehol.org/files/ri_web_proxies.ipset",
+        "category": "anonymizer",
+        "description": "Rosinstrument web proxies",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "socks_proxy",
+        "url": "https://iplists.firehol.org/files/socks_proxy.ipset",
+        "category": "anonymizer",
+        "description": "SOCKS proxies",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "sslproxies",
+        "url": "https://iplists.firehol.org/files/sslproxies.ipset",
+        "category": "anonymizer",
+        "description": "SSL proxies",
+        "regex": "^(?![#;/])([0-9a-fA-F:.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "x4bnet_vpn_all",
+        "url": "https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/vpn/ipv4.txt",
+        "category": "anonymizer",
+        "description": "X4BNet all VPN providers IPv4",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 6
+    },
+    {
+        "name": "x4bnet_datacenter_ipv4",
+        "url": "https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/datacenter/ipv4.txt",
+        "category": "datacenter",
+        "description": "X4BNet datacenter IPv4",
+        "regex": "^(?![#;/])([0-9.]+(?:/\\d+)?)",
+        "weight": 5
+    }
+]
