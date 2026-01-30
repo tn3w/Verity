@@ -2,13 +2,8 @@ name: Update Lists
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - '.github/workflows/update-lists.yml'
 
 jobs:
   update:
