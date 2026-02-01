@@ -1,6 +1,6 @@
 use axum::{
     extract::{ConnectInfo, Path, State},
-    http::StatusCode,
+    http::{HeaderMap, StatusCode},
     response::{IntoResponse, Redirect, Response},
     routing::get,
     Json, Router,
@@ -397,10 +397,27 @@ async fn lookup(
 }
 
 async fn lookup_self(
+    headers: HeaderMap,
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     State((lists, sources, cache, resolver)): State<(Lists, Sources, Cache, Resolver)>,
 ) -> Response {
-    let ip = addr.ip().to_string();
+    let ip = headers
+        .get("cf-connecting-ip")
+        .and_then(|h| h.to_str().ok())
+        .or_else(|| headers.get("x-real-ip").and_then(|h| h.to_str().ok()))
+        .or_else(|| {
+            headers
+                .get("x-forwarded-for")
+                .and_then(|h| h.to_str().ok())
+                .and_then(|s| s.split(',').next())
+                .map(|s| s.trim())
+        })
+        .unwrap_or_else(|| {
+            let ip_str = addr.ip().to_string();
+            Box::leak(ip_str.into_boxed_str())
+        })
+        .to_string();
+
     let lists_data = lists.read().await;
     evaluate_ip(ip, &lists_data, &sources, &cache, &resolver, true).await
 }
