@@ -16,11 +16,28 @@ High-performance IP reputation lookup service built with Rust and Axum.
 
 ## Deployment
 
-### Railway
+### Docker on Ubuntu
 
-1. Connect repository to Railway
-2. Railway auto-detects Rust and deploys
-3. Lists update automatically via GitHub Actions
+```bash
+# Install Docker
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+# Clone and build
+git clone https://github.com/tn3w/Verity.git
+cd Verity
+docker build -t verity:latest .
+
+# Create network
+docker network create webnet
+
+# Run multiple instances
+docker run -d --name verity_1 --network webnet verity:latest
+docker run -d --name verity_2 --network webnet verity:latest
+docker run -d --name verity_3 --network webnet verity:latest
+
+# Configure nginx/caddy for load balancing
+```
 
 ### Local
 

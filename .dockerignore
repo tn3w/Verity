@@ -1,0 +1,11 @@
+target/
+.git/
+.github/
+.venv/
+htmlcov/
+*.pyc
+__pycache__/
+.gitignore
+README.md
+LICENSE
+update_lists.py
