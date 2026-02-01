@@ -14,14 +14,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Download and process lists
         run: python update_lists.py
-      
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
