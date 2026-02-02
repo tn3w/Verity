@@ -18,11 +18,12 @@ use trust_dns_resolver::{
     TokioAsyncResolver,
 };
 
-const LISTS_URL: &str = "https://raw.githubusercontent.com/tn3w/Verity/master/lists.json";
+const DATA_URL: &str = "https://raw.githubusercontent.com/tn3w/IPBlocklist/master/data.json";
+const FEEDS_URL: &str = "https://raw.githubusercontent.com/tn3w/IPBlocklist/master/feeds.json";
 const CACHE_TTL: Duration = Duration::from_secs(3600);
-const LISTS_FILE: &str = "lists.json";
-const SOURCES_FILE: &str = "sources.json";
-const UPDATE_INTERVAL: Duration = Duration::from_secs(87300);
+const DATA_FILE: &str = "data.json";
+const FEEDS_FILE: &str = "feeds.json";
+const UPDATE_INTERVAL: Duration = Duration::from_secs(86400);
 const DNS_TIMEOUT: Duration = Duration::from_millis(500);
 const SCORE_CATEGORIES: [&str; 7] = [
     "malware",
@@ -47,9 +48,7 @@ struct SourceData {
     #[serde(default = "default_base_score")]
     base_score: f64,
     #[serde(default)]
-    score_categories: Vec<String>,
-    #[serde(default)]
-    special_handling: Option<String>,
+    categories: Vec<String>,
     #[serde(default)]
     provider_name: Option<String>,
 }
@@ -69,9 +68,24 @@ struct ReputationResponse {
 }
 
 #[derive(Deserialize)]
-struct ListsFile {
+struct DataFile {
     timestamp: i64,
-    lists: HashMap<String, ListData>,
+    feeds: HashMap<String, ListData>,
+}
+
+#[derive(Deserialize)]
+struct FeedConfig {
+    name: String,
+    #[serde(default)]
+    flags: Vec<String>,
+    #[serde(default = "default_base_score")]
+    base_score: f64,
+    #[serde(default)]
+    categories: Vec<String>,
+    #[serde(default)]
+    provider_name: Option<String>,
+    #[serde(default)]
+    confidence: f64,
 }
 
 type Lists = Arc<RwLock<HashMap<String, ListData>>>;
@@ -213,31 +227,42 @@ fn check_ip(target: u128, lists: &HashMap<String, ListData>) -> Vec<String> {
         .collect()
 }
 
-fn load_lists() -> Option<(i64, HashMap<String, ListData>)> {
-    let content = std::fs::read_to_string(LISTS_FILE).ok()?;
-    let parsed: ListsFile = serde_json::from_str(&content).ok()?;
-    Some((parsed.timestamp, parsed.lists))
+fn load_data() -> Option<(i64, HashMap<String, ListData>)> {
+    let content = std::fs::read_to_string(DATA_FILE).ok()?;
+    let parsed: DataFile = serde_json::from_str(&content).ok()?;
+    Some((parsed.timestamp, parsed.feeds))
 }
 
-fn load_sources() -> Option<HashMap<String, SourceData>> {
-    let content = std::fs::read_to_string(SOURCES_FILE).ok()?;
-    let sources: Vec<serde_json::Value> = serde_json::from_str(&content).ok()?;
+fn load_feeds() -> Option<HashMap<String, SourceData>> {
+    let content = std::fs::read_to_string(FEEDS_FILE).ok()?;
+    let feeds: Vec<FeedConfig> = serde_json::from_str(&content).ok()?;
 
     let mut map = HashMap::new();
-    for source in sources {
-        let name = source.get("name").and_then(|n| n.as_str())?.to_string();
-        let data: SourceData = serde_json::from_value(source).ok()?;
-        map.insert(name, data);
+    for feed in feeds {
+        let data = SourceData {
+            flags: feed.flags,
+            base_score: feed.base_score,
+            categories: feed.categories,
+            provider_name: feed.provider_name,
+        };
+        map.insert(feed.name, data);
     }
     Some(map)
 }
 
-async fn download_lists() -> Option<HashMap<String, ListData>> {
-    let response = reqwest::get(LISTS_URL).await.ok()?;
+async fn download_data() -> Option<HashMap<String, ListData>> {
+    let response = reqwest::get(DATA_URL).await.ok()?;
     let bytes = response.bytes().await.ok()?;
-    let parsed: ListsFile = serde_json::from_slice(&bytes).ok()?;
-    std::fs::write(LISTS_FILE, &bytes).ok()?;
-    Some(parsed.lists)
+    let parsed: DataFile = serde_json::from_slice(&bytes).ok()?;
+    std::fs::write(DATA_FILE, &bytes).ok()?;
+    Some(parsed.feeds)
+}
+
+async fn download_feeds() -> Option<()> {
+    let response = reqwest::get(FEEDS_URL).await.ok()?;
+    let bytes = response.bytes().await.ok()?;
+    std::fs::write(FEEDS_FILE, &bytes).ok()?;
+    Some(())
 }
 
 fn unix_timestamp() -> i64 {
@@ -247,7 +272,7 @@ fn unix_timestamp() -> i64 {
         .as_secs() as i64
 }
 
-async fn update_lists_loop(lists: Lists, initial_timestamp: i64) {
+async fn update_data_loop(lists: Lists, initial_timestamp: i64) {
     let mut last_timestamp = initial_timestamp;
 
     loop {
@@ -258,17 +283,17 @@ async fn update_lists_loop(lists: Lists, initial_timestamp: i64) {
             tokio::time::sleep(Duration::from_secs(wait as u64)).await;
         }
 
-        println!("Updating lists...");
+        println!("Updating data...");
 
-        match download_lists().await {
+        match download_data().await {
             Some(new_lists) => {
                 let count = new_lists.len();
                 *lists.write().await = new_lists;
                 last_timestamp = unix_timestamp();
-                println!("Lists updated: {} entries", count);
+                println!("Data updated: {} feeds", count);
             }
             None => {
-                eprintln!("Failed to update lists");
+                eprintln!("Failed to update data");
                 tokio::time::sleep(Duration::from_secs(300)).await;
             }
         }
@@ -304,20 +329,9 @@ fn process_reputation(
             flags.insert(flag.clone(), serde_json::Value::Bool(true));
         }
 
-        for category in &source.score_categories {
+        for category in &source.categories {
             if let Some(category_scores) = scores.get_mut(category.as_str()) {
                 category_scores.push(source.base_score);
-            }
-        }
-
-        if let Some(handling) = &source.special_handling {
-            if handling == "tor_node_detection" {
-                let key = if list_name.to_lowercase().contains("exit") {
-                    "is_tor_exit"
-                } else {
-                    "is_tor_relay"
-                };
-                flags.insert(key.to_string(), serde_json::Value::Bool(true));
             }
         }
 
@@ -424,20 +438,25 @@ async fn lookup_self(
 
 #[tokio::main]
 async fn main() {
-    let (timestamp, initial_lists) = load_lists()
+    if load_feeds().is_none() {
+        println!("Downloading feeds configuration...");
+        download_feeds().await.expect("Failed to download feeds");
+    }
+
+    let sources = Arc::new(load_feeds().expect("Failed to load feeds"));
+
+    let (timestamp, initial_lists) = load_data()
         .or_else(|| {
-            println!("Downloading initial lists...");
+            println!("Downloading initial data...");
             tokio::runtime::Handle::current().block_on(async {
-                download_lists()
+                download_data()
                     .await
                     .map(|lists| (unix_timestamp(), lists))
             })
         })
-        .expect("Failed to load lists");
+        .expect("Failed to load data");
 
-    let sources = Arc::new(load_sources().expect("Failed to load sources"));
-
-    println!("Loaded {} lists", initial_lists.len());
+    println!("Loaded {} feeds with 8.7M+ entries", initial_lists.len());
 
     let lists = Arc::new(RwLock::new(initial_lists));
     let cache = Arc::new(RwLock::new(HashMap::new()));
@@ -446,7 +465,7 @@ async fn main() {
         ResolverOpts::default(),
     ));
 
-    tokio::spawn(update_lists_loop(lists.clone(), timestamp));
+    tokio::spawn(update_data_loop(lists.clone(), timestamp));
 
     let app = Router::new()
         .route("/", get(root))

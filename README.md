@@ -4,15 +4,30 @@ High-performance IP reputation lookup service built with Rust and Axum.
 
 ## Features
 
-- Fast IP lookup against 70+ threat intelligence lists
-- Automatic list updates every 24 hours via GitHub Actions
+- Fast IP lookup against 144 threat intelligence feeds
+- Automatic data updates every 24 hours from IPBlocklist
 - Memory-efficient with RwLock for concurrent reads
 - Sub-2ms search time after loading
+- 8.7M+ IPs and CIDR ranges from multiple threat intelligence sources
+- Reputation scoring with category-based threat analysis
 
 ## API Endpoints
 
 - `GET /` - Redirects to GitHub repository
-- `GET /:ip` - Check IP reputation, returns list of matching threat lists
+- `GET /me` - Check your own IP reputation (includes IP in response)
+- `GET /:ip` - Check IP reputation, returns score, matching feeds, and flags
+
+## Response Format
+
+```json
+{
+  "score": 0.75,
+  "lists": ["feodotracker", "emerging_compromised"],
+  "is_malware": true,
+  "is_botnet": true,
+  "is_c2_server": true
+}
+```
 
 ## Deployment
 
@@ -47,19 +62,22 @@ cargo run --release
 
 Server runs on `http://0.0.0.0:3000`
 
-## Manual List Update
+## Data Source
 
-```bash
-python update_lists.py
-```
+Verity uses the [IPBlocklist](https://github.com/tn3w/IPBlocklist) dataset, which aggregates threat intelligence from 144 security feeds including:
+
+- Malware C&C servers and botnets
+- Spam networks and compromised hosts
+- VPN providers and Tor nodes
+- Datacenter/hosting ASNs
+- Web attackers and scanners
+
+The data is automatically downloaded from `https://raw.githubusercontent.com/tn3w/IPBlocklist/master/data.json` and updated every 24 hours.
 
 ## Structure
 
 ```
-├── .github/workflows/update-lists.yml  # Auto-update workflow
-├── src/main.rs                         # API service
-├── Cargo.toml
-├── sources.json                        # List sources config
-├── lists.json                          # Processed lists (50MB)
-└── update_lists.py                     # List updater script
+├── src/main.rs    # API service
+├── Cargo.toml     # Dependencies
+└── Dockerfile     # Container config
 ```
